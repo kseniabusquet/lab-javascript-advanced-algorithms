@@ -12,6 +12,7 @@ const newStack = new Stack();
 
 const clearStackInput = () => {
   // ... your code goes here
+  stackInput.value = ''
 };
 
 const renderListStack = () => {
@@ -28,19 +29,43 @@ const generateWarningStack = (type) => {
   }
 };
 
+var stackFirstChild = stackList.firstChild;
+
 const addToStack = () => {
   try {
     // ... your code goes here
+    if(stackInput.value !== ''){
+      newStack.push(stackInput.value)
+      var newNode = document.createElement('li');
+      newNode.textContent = stackInput.value
+      newNode.setAttribute('class','active')
+      if(stackList.innerHTML === ''){
+        stackList.appendChild(newNode)
+      }else{
+        stackList.insertBefore(newNode,stackFirstChild)
+      }
+      clearStackInput()
+      warningBottomStack.style.display = 'none'
+    }
   } catch (error) {
     // there was an overflow error, handle it
+    warningTopStack.innerHTML = error
+    warningTopStack.style.display = 'block'
+    clearStackInput()
   }
 };
 
 const removeFromStack = () => {
   try {
     // ... your code goes here
+    newStack.pop(stackInput.value)
+    var liToRemove = stackList.lastChild
+    stackList.removeChild(liToRemove)
+    warningTopStack.style.display = 'none'
   } catch (error) {
     // there was an underflow error, handle it
+    warningBottomStack.innerHTML = error
+    warningBottomStack.style.display = 'block'
   }
 };
 
